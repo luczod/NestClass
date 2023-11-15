@@ -1,11 +1,17 @@
-import { MigrationInterface, QueryRunner } from "typeorm"
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AlterTableState1700071419886 implements MigrationInterface {
+export class alterTableState1675458729381 implements MigrationInterface {
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.query(`
+            ALTER TABLE state
+                ADD uf varchar(2) NOT NULL;
+        `);
+  }
 
-    public async up(queryRunner: QueryRunner): Promise<void> {
-    }
-
-    public async down(queryRunner: QueryRunner): Promise<void> {
-    }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    queryRunner.query(`
+            ALTER TABLE state
+                drop uf;
+        `);
+  }
 }
