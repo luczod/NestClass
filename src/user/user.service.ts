@@ -1,7 +1,7 @@
 import { Get, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dtos/createUser.dto';
 import * as bcrypt from 'bcrypt';
-import { UserEntity } from './intefaces/user.entity';
+import { UserEntity } from './interfaces/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -18,6 +18,7 @@ export class UserService {
 
     return this.userRespository.save({
       ...createUserDto,
+      typeUser: 1,
       password: hashPass,
     });
   }
