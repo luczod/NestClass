@@ -7,6 +7,10 @@
     {
       "icon": "db",
       "extensions": ["migration", "migrations"]
+    },
+    {
+      "icon": "memcached",
+      "extensions": ["cache"]
     }
   ]
 }
