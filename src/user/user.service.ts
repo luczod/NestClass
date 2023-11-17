@@ -1,4 +1,4 @@
-import { Get, Injectable, NotFoundException } from '@nestjs/common';
+import { BadGatewayException, Get, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dtos/createUser.dto';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from './model/user.entity';
@@ -13,6 +13,10 @@ export class UserService {
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+    const duplicateEmail = await this.findUserByEmail(createUserDto.email).catch(() => undefined);
+    if (duplicateEmail) {
+      throw new BadGatewayException('email already registered');
+    }
     const saltOrRounds = 10;
     const hashPass = await bcrypt.hash(createUserDto.password, saltOrRounds);
 
