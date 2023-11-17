@@ -9,14 +9,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRespository: Repository<UserEntity>,
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     const saltOrRounds = 10;
     const hashPass = await bcrypt.hash(createUserDto.password, saltOrRounds);
 
-    return this.userRespository.save({
+    return this.userRepository.save({
       ...createUserDto,
       typeUser: 1,
       password: hashPass,
@@ -24,7 +24,7 @@ export class UserService {
   }
 
   async getUserByIdUsingRelations(userId: number): Promise<UserEntity> {
-    return this.userRespository.findOne({
+    return this.userRepository.findOne({
       where: {
         id: userId,
       },
@@ -40,11 +40,11 @@ export class UserService {
 
   @Get()
   async getAllUser(): Promise<UserEntity[]> {
-    return this.userRespository.find();
+    return this.userRepository.find();
   }
 
   async findUserById(userId: number): Promise<UserEntity> {
-    const user = await this.userRespository.findOne({
+    const user = await this.userRepository.findOne({
       where: {
         id: userId,
       },
@@ -52,6 +52,20 @@ export class UserService {
 
     if (!user) {
       throw new NotFoundException(`userId: ${userId} not found`);
+    }
+
+    return user;
+  }
+
+  async findUserByEmail(email: string): Promise<UserEntity> {
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Email: ${email} Not Found`);
     }
 
     return user;
