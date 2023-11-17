@@ -11,6 +11,10 @@
     {
       "icon": "memcached",
       "extensions": ["cache"]
+    },
+    {
+      "icon": "middleware",
+      "extensions": ["decorators"]
     }
   ]
 }
