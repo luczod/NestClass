@@ -1,4 +1,4 @@
-import { LoginPayload } from 'src/auth/dtos/loginPayload.dto';
+import { LoginPayload } from '../auth/dtos/loginPayload.dto';
 
 export function jwtToLoginPayload(jwtAuth: string): LoginPayload {
   const jwtSplited = jwtAuth.split('.');

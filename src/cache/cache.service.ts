@@ -6,10 +6,7 @@ import { Cache } from 'cache-manager';
 export class CacheService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
-  async getCache<T>(
-    key: string,
-    functionRequest: () => Promise<T>,
-  ): Promise<T> {
+  async getCache<T>(key: string, functionRequest: () => Promise<T>): Promise<T> {
     const cacheData: T = await this.cacheManager.get(key);
 
     // check data in cache
