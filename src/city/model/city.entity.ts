@@ -28,10 +28,10 @@ export class CityEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @OneToMany(() => AddressEntity, (address) => address.city)
+  @OneToMany('AddressEntity', 'city')
   addresses?: AddressEntity[];
 
-  @ManyToOne(() => StateEntity, (state) => state.cities)
+  @ManyToOne('StateEntity', 'cities')
   @JoinColumn({ name: 'state_id', referencedColumnName: 'id' })
   state?: StateEntity;
 }
