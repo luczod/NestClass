@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CacheService } from '../cache.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { userEntityMock } from '../../user/__mocks__/user.mock';
@@ -16,7 +17,7 @@ describe('CacheService', () => {
           provide: CACHE_MANAGER,
           useValue: {
             get: () => userEntityMock,
-            set: () => jest.fn(),
+            set: () => vi.fn(),
           },
         },
       ],
@@ -38,7 +39,7 @@ describe('CacheService', () => {
 
   it('should return data in function', async () => {
     const result = { test: 'spec' };
-    jest.spyOn(cacheManager, 'get').mockResolvedValue(undefined);
+    vi.spyOn(cacheManager, 'get').mockResolvedValue(undefined);
 
     const user = await service.getCache('key', () => Promise.resolve(result));
 

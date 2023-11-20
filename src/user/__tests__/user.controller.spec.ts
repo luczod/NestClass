@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { UserController } from '../user.controller';
 import { UserService } from '../user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -16,8 +17,8 @@ describe('UserController', () => {
         {
           provide: getRepositoryToken(UserEntity),
           useValue: {
-            findOne: jest.fn().mockResolvedValue(userEntityMock),
-            save: jest.fn().mockResolvedValue(userEntityMock),
+            findOne: vi.fn().mockResolvedValue(userEntityMock),
+            save: vi.fn().mockResolvedValue(userEntityMock),
           },
         },
       ],

@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CityService } from '../city.service';
 import { Repository } from 'typeorm';
 import { CityEntity } from '../model/city.entity';
@@ -17,13 +18,13 @@ describe('CityService', () => {
         {
           provide: CacheService,
           useValue: {
-            getCache: jest.fn().mockResolvedValue([CityEntityMock]),
+            getCache: vi.fn().mockResolvedValue([CityEntityMock]),
           },
         },
         {
           provide: getRepositoryToken(CityEntity),
           useValue: {
-            findOne: jest.fn().mockResolvedValue(CityEntityMock),
+            findOne: vi.fn().mockResolvedValue(CityEntityMock),
           },
         },
       ],
@@ -47,13 +48,13 @@ describe('CityService', () => {
   });
 
   it('should return error in findCityById', async () => {
-    jest.spyOn(cityRepository, 'findOne').mockResolvedValue(undefined);
+    vi.spyOn(cityRepository, 'findOne').mockResolvedValue(undefined);
 
     expect(service.findCityById(CityEntityMock.id)).rejects.toThrow();
   });
 
   it('should return error in findCityById ON Request', async () => {
-    jest.spyOn(cityRepository, 'findOne').mockRejectedValueOnce(new Error());
+    vi.spyOn(cityRepository, 'findOne').mockRejectedValueOnce(new Error());
 
     expect(service.findCityById(CityEntityMock.id)).rejects.toThrow();
   });

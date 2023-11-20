@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AddressController } from '../address.controller';
 import { AddressService } from '../address.service';
 import { UserService } from '../../user/user.service';
@@ -20,19 +21,19 @@ describe('AddressController', () => {
         {
           provide: UserService,
           useValue: {
-            findUserById: jest.fn().mockResolvedValue(userEntityMock),
+            findUserById: vi.fn().mockResolvedValue(userEntityMock),
           },
         },
         {
           provide: CityService,
           useValue: {
-            findCityById: jest.fn().mockResolvedValue(CityEntityMock),
+            findCityById: vi.fn().mockResolvedValue(CityEntityMock),
           },
         },
         {
           provide: getRepositoryToken(AddressEntity),
           useValue: {
-            save: jest.fn().mockResolvedValue(addressEntityMock),
+            save: vi.fn().mockResolvedValue(addressEntityMock),
           },
         },
       ],

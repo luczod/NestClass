@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AddressService } from '../address.service';
 import { Repository } from 'typeorm';
 import { UserService } from '../../user/user.service';
@@ -23,19 +24,19 @@ describe('AddressService', () => {
         {
           provide: UserService,
           useValue: {
-            findUserById: jest.fn().mockResolvedValue(userEntityMock),
+            findUserById: vi.fn().mockResolvedValue(userEntityMock),
           },
         },
         {
           provide: CityService,
           useValue: {
-            findCityById: jest.fn().mockResolvedValue(CityEntityMock),
+            findCityById: vi.fn().mockResolvedValue(CityEntityMock),
           },
         },
         {
           provide: getRepositoryToken(AddressEntity),
           useValue: {
-            save: jest.fn().mockResolvedValue(addressEntityMock),
+            save: vi.fn().mockResolvedValue(addressEntityMock),
           },
         },
       ],
@@ -61,13 +62,13 @@ describe('AddressService', () => {
   });
 
   it('should return error if exception in userService', async () => {
-    jest.spyOn(userService, 'findUserById').mockRejectedValueOnce(new Error());
+    vi.spyOn(userService, 'findUserById').mockRejectedValueOnce(new Error());
 
     expect(service.createAddress(createAddressMock, userEntityMock.id)).rejects.toThrow();
   });
 
   it('should return error if exception in cityService', async () => {
-    jest.spyOn(cityService, 'findCityById').mockRejectedValueOnce(new Error());
+    vi.spyOn(cityService, 'findCityById').mockRejectedValueOnce(new Error());
 
     expect(service.createAddress(createAddressMock, userEntityMock.id)).rejects.toThrow();
   });

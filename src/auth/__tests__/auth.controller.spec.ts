@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
 import { UserService } from '../../user/user.service';
@@ -17,7 +18,7 @@ describe('AuthController', () => {
         {
           provide: UserService,
           useValue: {
-            findUserByEmail: jest.fn().mockResolvedValue(userEntityMock),
+            findUserByEmail: vi.fn().mockResolvedValue(userEntityMock),
           },
         },
         {

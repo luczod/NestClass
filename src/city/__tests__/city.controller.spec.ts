@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CityController } from '../city.controller';
-import { Repository } from 'typeorm';
 import { CityEntity } from '../model/city.entity';
 import { CityService } from '../city.service';
 import { CacheService } from '../../cache/cache.service';
@@ -18,14 +18,14 @@ describe('CityController', () => {
         {
           provide: CacheService,
           useValue: {
-            getCache: jest.fn().mockResolvedValue({}),
+            getCache: vi.fn().mockResolvedValue({}),
           },
         },
         {
           provide: getRepositoryToken(CityEntity),
           useValue: {
-            findOne: jest.fn().mockResolvedValue(CityEntityMock),
-            save: jest.fn().mockResolvedValue(CityEntityMock),
+            findOne: vi.fn().mockResolvedValue(CityEntityMock),
+            save: vi.fn().mockResolvedValue(CityEntityMock),
           },
         },
       ],

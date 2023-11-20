@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { StateService } from '../state.service';
 import { Repository } from 'typeorm';
 import { StateEntity } from '../model/state.entity';
@@ -16,8 +17,8 @@ describe('StateService', () => {
         {
           provide: getRepositoryToken(StateEntity),
           useValue: {
-            find: jest.fn().mockResolvedValue(StateEntityMock),
-            save: jest.fn().mockResolvedValue(StateEntityMock),
+            find: vi.fn().mockResolvedValue(StateEntityMock),
+            save: vi.fn().mockResolvedValue(StateEntityMock),
           },
         },
       ],
@@ -39,7 +40,7 @@ describe('StateService', () => {
   });
 
   it('should return error in getAllState', async () => {
-    jest.spyOn(stateRepository, 'find').mockRejectedValueOnce(new Error());
+    vi.spyOn(stateRepository, 'find').mockRejectedValueOnce(new Error());
 
     expect(service.getAllState()).rejects.toThrow();
   });

@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AuthService } from '../auth.service';
 import { UserService } from '../../user/user.service';
 import { JwtService } from '@nestjs/jwt';
@@ -18,7 +19,7 @@ describe('AuthService', () => {
         {
           provide: UserService,
           useValue: {
-            findUserByEmail: jest.fn().mockResolvedValue(userEntityMock),
+            findUserByEmail: vi.fn().mockResolvedValue(userEntityMock),
           },
         },
         {
@@ -53,13 +54,13 @@ describe('AuthService', () => {
   });
 
   it('should return user if email not exist', async () => {
-    jest.spyOn(userService, 'findUserByEmail').mockResolvedValue(undefined);
+    vi.spyOn(userService, 'findUserByEmail').mockResolvedValue(undefined);
 
     expect(service.login(loginUserMock)).rejects.toThrow();
   });
 
   it('should return error in UserService', async () => {
-    jest.spyOn(userService, 'findUserByEmail').mockRejectedValue(new Error());
+    vi.spyOn(userService, 'findUserByEmail').mockRejectedValue(new Error());
 
     expect(service.login(loginUserMock)).rejects.toThrow();
   });

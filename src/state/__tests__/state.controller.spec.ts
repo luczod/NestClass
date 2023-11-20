@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { StateController } from '../state.controller';
 import { StateEntity } from '../model/state.entity';
 import { StateService } from '../state.service';
@@ -16,8 +17,8 @@ describe('StateController', () => {
         {
           provide: getRepositoryToken(StateEntity),
           useValue: {
-            find: jest.fn().mockResolvedValue(StateEntityMock),
-            save: jest.fn().mockResolvedValue(StateEntityMock),
+            find: vi.fn().mockResolvedValue(StateEntityMock),
+            save: vi.fn().mockResolvedValue(StateEntityMock),
           },
         },
       ],

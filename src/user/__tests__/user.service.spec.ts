@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { UserService } from '../user.service';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../model/user.entity';
@@ -17,8 +18,8 @@ describe('UserService', () => {
         {
           provide: getRepositoryToken(UserEntity),
           useValue: {
-            findOne: jest.fn().mockResolvedValue(userEntityMock),
-            save: jest.fn().mockResolvedValue(userEntityMock),
+            findOne: vi.fn().mockResolvedValue(userEntityMock),
+            save: vi.fn().mockResolvedValue(userEntityMock),
           },
         },
       ],
@@ -40,13 +41,13 @@ describe('UserService', () => {
   });
 
   it('should return error in findUserByEmail', async () => {
-    jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+    vi.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
 
     expect(service.findUserByEmail(userEntityMock.email)).rejects.toThrow();
   });
 
   it('should return error in findUserByEmail (error DB)', async () => {
-    jest.spyOn(userRepository, 'findOne').mockRejectedValueOnce(new Error());
+    vi.spyOn(userRepository, 'findOne').mockRejectedValueOnce(new Error());
 
     expect(service.findUserByEmail(userEntityMock.email)).rejects.toThrow();
   });
@@ -58,13 +59,13 @@ describe('UserService', () => {
   });
 
   it('should return error in findUserById', async () => {
-    jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+    vi.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
 
     expect(service.findUserByEmail(userEntityMock.email)).rejects.toThrow();
   });
 
   it('should return error in findUserById (error DB)', async () => {
-    jest.spyOn(userRepository, 'findOne').mockRejectedValueOnce(new Error());
+    vi.spyOn(userRepository, 'findOne').mockRejectedValueOnce(new Error());
 
     expect(service.findUserById(userEntityMock.id)).rejects.toThrow();
   });
@@ -80,7 +81,7 @@ describe('UserService', () => {
   });
 
   it('should return user if user not exist', async () => {
-    jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+    vi.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
 
     const user = await service.createUser(createUserMock);
 
