@@ -1,5 +1,6 @@
 import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config';
+// npx vitest --ui
 
 export default defineConfig({
   test: {
