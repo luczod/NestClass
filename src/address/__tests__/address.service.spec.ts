@@ -36,6 +36,7 @@ describe('AddressService', () => {
         {
           provide: getRepositoryToken(AddressEntity),
           useValue: {
+            find: vi.fn().mockResolvedValue([addressEntityMock]),
             save: vi.fn().mockResolvedValue(addressEntityMock),
           },
         },
@@ -71,5 +72,17 @@ describe('AddressService', () => {
     vi.spyOn(cityService, 'findCityById').mockRejectedValueOnce(new Error());
 
     expect(service.createAddress(createAddressMock, userEntityMock.id)).rejects.toThrow();
+  });
+
+  it('should return all address to user', async () => {
+    const address = await service.findAddressByUserId(userEntityMock.id);
+
+    expect(address).toEqual([addressEntityMock]);
+  });
+
+  it('should return 404 if not address registerd', async () => {
+    vi.spyOn(addressRepository, 'find').mockResolvedValue(undefined);
+
+    expect(service.findAddressByUserId(userEntityMock.id)).rejects.toThrow();
   });
 });
