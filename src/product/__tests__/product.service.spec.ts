@@ -8,6 +8,7 @@ import { categoryMock } from '../../category/__mocks__/category.mock';
 import { productMock } from '../__mocks__/product.mock';
 import { Repository } from 'typeorm';
 import { createProduct } from '../__mocks__/create-product.mock';
+import { ReturnDeleteMock } from 'src/__mocks__/return-delete.mock';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -28,7 +29,9 @@ describe('ProductService', () => {
           provide: getRepositoryToken(ProductEntity),
           useValue: {
             find: vi.fn().mockResolvedValue([productMock]),
+            findOne: vi.fn().mockResolvedValue(productMock),
             save: vi.fn().mockResolvedValue(productMock),
+            delete: vi.fn().mockResolvedValue(ReturnDeleteMock),
           },
         },
       ],
@@ -73,5 +76,23 @@ describe('ProductService', () => {
     vi.spyOn(categoryService, 'findCategoryById').mockRejectedValue(new Error());
 
     expect(service.createProduct(createProduct)).rejects.toThrowError();
+  });
+
+  it('should return product findProductById', async () => {
+    const product = await service.findProductById(productMock.id);
+
+    expect(product).toEqual(productMock);
+  });
+
+  it('should return error in findProductById not found', async () => {
+    vi.spyOn(productRepository, 'findOne').mockResolvedValue(undefined);
+
+    expect(service.findProductById(productMock.id)).rejects.toThrowError();
+  });
+
+  it('should return true in deleteProduct', async () => {
+    const product = await service.deleteProduct(productMock.id);
+
+    expect(product).toEqual(ReturnDeleteMock);
   });
 });
