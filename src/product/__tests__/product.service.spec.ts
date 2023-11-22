@@ -7,7 +7,7 @@ import { CategoryService } from '../../category/category.service';
 import { categoryMock } from '../../category/__mocks__/category.mock';
 import { productMock } from '../__mocks__/product.mock';
 import { Repository } from 'typeorm';
-import { createProduct } from '../__mocks__/create-product.mock';
+import { createProductMock } from '../__mocks__/create-product.mock';
 import { ReturnDeleteMock } from 'src/__mocks__/return-delete.mock';
 
 describe('ProductService', () => {
@@ -67,7 +67,7 @@ describe('ProductService', () => {
   });
 
   it('should return product after insert in DB', async () => {
-    const product = await service.createProduct(createProduct);
+    const product = await service.createProduct(createProductMock);
 
     expect(product).toEqual(productMock);
   });
@@ -75,7 +75,7 @@ describe('ProductService', () => {
   it('should return product after insert in DB', async () => {
     vi.spyOn(categoryService, 'findCategoryById').mockRejectedValue(new Error());
 
-    expect(service.createProduct(createProduct)).rejects.toThrowError();
+    expect(service.createProduct(createProductMock)).rejects.toThrowError();
   });
 
   it('should return product findProductById', async () => {
@@ -94,5 +94,17 @@ describe('ProductService', () => {
     const product = await service.deleteProduct(productMock.id);
 
     expect(product).toEqual(ReturnDeleteMock);
+  });
+
+  it('should return produt after update', async () => {
+    const product = await service.updateProduct(createProductMock, productMock.id);
+
+    expect(product).toEqual(productMock);
+  });
+
+  it('should error in update product', async () => {
+    vi.spyOn(productRepository, 'save').mockRejectedValue(new Error());
+
+    expect(service.updateProduct(createProductMock, productMock.id)).rejects.toThrowError();
   });
 });

@@ -1,0 +1,33 @@
+https://github.com/juliossena/vendas-online-backend
+
+
+git log --grep="insert load"
+Este comando exibirá uma lista de commits que contenham a mensagem desejada. Encontre o hash do commit desejado na lista e, em seguida, use o seguinte comando para visualizar o código desse commit:
+
+git show <hash_do_commit>
+Substitua <hash_do_commit> pelo hash real do commit que você deseja visualizar. Isso mostrará as alterações feitas no commit, incluindo as adições e exclusões de código.
+
+git log --oneline
+Este comando exibirá uma lista compacta de todos os commits no seu repositório, mostrando apenas o hash do commit e a mensagem de commit em uma única linha para cada commit
+
+git log
+Este comando mostrará uma lista mais detalhada, incluindo autor, data e a mensagem completa de cada commit. Você pode navegar pelos resultados pressionando a tecla "q" para sair do log.
+
+Lembre-se de que esses comandos mostrarão os commits do branch atual. Se você estiver interessado em ver os commits de outros branches ou de todos os branches, pode precisar ajustar os comandos conforme necessário.
+
+https://github.com/juliossena/vendas-online-app/commit/30cd444c06637d0c0ef8b9668971b0b9566c1811
+https://github.com/juliossena/vendas-online-backend/commit/30cd444c06637d0c0ef8b9668971b0b9566c1811
+
+git checkout <commit-id> .
+mistura tudo
+
+git checkout <commit-id>
+voltar o codigo para a vesão desse commit,detached HEAD' state.
+git switch -c <new-branch-name>
+criar uma nova branch com a versão desse commit
+
+git switch -
+boltar para a ultima versão
+
+git log --oneline --since="2023-02-02" --until="2023-02-04"
+range of dates
