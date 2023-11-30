@@ -6,7 +6,7 @@ export const UserId = createParamDecorator((_, ctx: ExecutionContext) => {
 
   const loginPayload = jwtToLoginPayload(authorization);
 
-  console.log('jwtId', loginPayload.id);
+  // console.log('jwtId', loginPayload.id);
 
   return loginPayload?.id;
 });

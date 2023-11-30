@@ -7,10 +7,11 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Relation,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'cartProduct' })
+@Entity({ name: 'cart_product' })
 export class CartProductEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
@@ -34,7 +35,7 @@ export class CartProductEntity {
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
   product?: ProductEntity;
 
-  /*   @ManyToOne('CartEntity', 'cartProduct')
+  @ManyToOne('CartEntity', 'cartProduct')
   @JoinColumn({ name: 'cart_id', referencedColumnName: 'id' })
-  cart?: CartEntity; */
+  cart?: CartEntity;
 }
