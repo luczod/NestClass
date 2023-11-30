@@ -4,6 +4,7 @@ import { CartService } from '../cart.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CartEntity } from '../model/cart.entity';
 import { Repository } from 'typeorm';
+import { CartProductService } from '../../cart-product/cart-product.service';
 
 describe('CartService', () => {
   let service: CartService;
@@ -13,6 +14,10 @@ describe('CartService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         CartService,
+        {
+          provide: CartProductService,
+          useValue: {},
+        },
         {
           provide: getRepositoryToken(CartEntity),
           useValue: {},
