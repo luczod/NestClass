@@ -6,35 +6,37 @@ import { CityService } from '../city.service';
 import { CacheService } from '../../cache/cache.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CityEntityMock } from '../__mocks__/city.mock';
+import { StateEntityMock } from 'src/state/__mocks__/state.mock';
 
 describe('CityController', () => {
   let controller: CityController;
+  let cityService: CityService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [CityController],
       providers: [
-        CityService,
         {
-          provide: CacheService,
+          provide: CityService,
           useValue: {
-            getCache: vi.fn().mockResolvedValue({}),
-          },
-        },
-        {
-          provide: getRepositoryToken(CityEntity),
-          useValue: {
-            findOne: vi.fn().mockResolvedValue(CityEntityMock),
-            save: vi.fn().mockResolvedValue(CityEntityMock),
+            getAllCitiesByStateId: vi.fn().mockResolvedValue([CityEntityMock]),
           },
         },
       ],
     }).compile();
 
     controller = module.get<CityController>(CityController);
+    cityService = module.get<CityService>(CityService);
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+    expect(cityService).toBeDefined();
+  });
+
+  it('should return city Entity in getAllCitiesByStateId', async () => {
+    const city = await controller.getAllCitiesByStateid(StateEntityMock.id);
+
+    expect(city).toEqual([CityEntityMock]);
   });
 });

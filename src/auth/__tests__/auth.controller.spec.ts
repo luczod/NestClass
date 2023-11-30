@@ -2,38 +2,38 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
-import { UserService } from '../../user/user.service';
-import { JwtService } from '@nestjs/jwt';
-import { jwtMock } from '../__mocks__/jwt.mock';
-import { userEntityMock } from '../../user/__mocks__/user.mock';
+import { loginUserMock } from '../__mocks__/login-user.mock';
+import { returnLoginMock } from '../__mocks__/return-login.mock';
 
 describe('AuthController', () => {
   let controller: AuthController;
+  let authService: AuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
-        AuthService,
         {
-          provide: UserService,
+          provide: AuthService,
           useValue: {
-            findUserByEmail: vi.fn().mockResolvedValue(userEntityMock),
-          },
-        },
-        {
-          provide: JwtService,
-          useValue: {
-            signAsync: () => jwtMock,
+            login: vi.fn().mockResolvedValue(returnLoginMock),
           },
         },
       ],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
+    authService = module.get<AuthService>(AuthService);
   });
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+    expect(authService).toBeDefined();
+  });
+
+  it('should return userLogin', async () => {
+    const userLogin = await controller.login(loginUserMock);
+
+    expect(userLogin).toEqual(returnLoginMock);
   });
 });

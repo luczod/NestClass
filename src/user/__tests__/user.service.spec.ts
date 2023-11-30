@@ -20,6 +20,7 @@ describe('UserService', () => {
           provide: getRepositoryToken(UserEntity),
           useValue: {
             findOne: vi.fn().mockResolvedValue(userEntityMock),
+            find: vi.fn().mockResolvedValue([userEntityMock]),
             save: vi.fn().mockResolvedValue(userEntityMock),
           },
         },
@@ -33,6 +34,12 @@ describe('UserService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
     expect(userRepository).toBeDefined();
+  });
+
+  it('should return list of users in getAllUser', async () => {
+    const user = await service.getAllUser();
+
+    expect(user).toEqual([userEntityMock]);
   });
 
   it('should return user in findUserByEmail', async () => {
