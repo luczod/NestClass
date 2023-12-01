@@ -5,6 +5,7 @@ import { UserService } from '../user.service';
 import { userEntityMock } from '../__mocks__/user.mock';
 import { createUserMock } from '../__mocks__/createUser.mock';
 import { updatePasswordMock } from '../__mocks__/update-user.mock';
+import { ReturnUserDto } from '../dtos/returnUser.dto';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -71,5 +72,11 @@ describe('UserController', () => {
     const user = await controller.updatePasswordUser(updatePasswordMock, userEntityMock.id);
 
     expect(user).toEqual(userEntityMock);
+  });
+
+  it('should return UserEntity in getInfoUser', async () => {
+    const user = await controller.getInfoUser(userEntityMock.id);
+
+    expect(user).toEqual(new ReturnUserDto(userEntityMock));
   });
 });
