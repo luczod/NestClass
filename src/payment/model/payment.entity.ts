@@ -40,9 +40,16 @@ export abstract class PaymentEntity {
   updatedAt: Date;
 
   @OneToMany('OrderEntity', 'payment')
-  orders: OrderEntity[];
+  orders?: OrderEntity[];
 
   @ManyToMany('PaymentStatusEntity', 'payments')
   @JoinColumn({ name: 'status_id', referencedColumnName: 'id' })
-  paymentStatus: PaymentStatusEntity;
+  paymentStatus?: PaymentStatusEntity;
+
+  constructor(statusId: number, price: number, discount: number, finalPrice: number) {
+    this.statusId = statusId;
+    this.price = price;
+    this.discount = discount;
+    this.finalPrice = finalPrice;
+  }
 }

@@ -47,5 +47,5 @@ export class AddressEntity {
   city?: CityEntity;
 
   @OneToMany('OrderEntity', 'address')
-  orders: OrderEntity[];
+  orders?: OrderEntity[];
 }

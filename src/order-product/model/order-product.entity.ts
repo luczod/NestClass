@@ -35,9 +35,9 @@ export class OrderProductEntity {
 
   @ManyToMany('OrderEntity', 'ordersProduct')
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
-  orders: OrderEntity;
+  orders?: OrderEntity;
 
   @ManyToMany('ProductEntity', 'ordersProduct')
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
-  product: ProductEntity;
+  product?: ProductEntity;
 }

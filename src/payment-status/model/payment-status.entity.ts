@@ -23,5 +23,5 @@ export class PaymentStatusEntity {
   updatedAt: Date;
 
   @OneToMany('PaymentEntity', 'paymentStatus')
-  payments: PaymentEntity[];
+  payments?: PaymentEntity[];
 }

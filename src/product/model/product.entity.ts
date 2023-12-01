@@ -44,5 +44,5 @@ export class ProductEntity {
   category?: CategoryEntity;
 
   @OneToMany('OrderProductEntity', 'product')
-  orderProduct: OrderProductEntity[];
+  orderProduct?: OrderProductEntity[];
 }
