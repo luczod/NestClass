@@ -15,7 +15,7 @@ lerna-debug.log*
 # OS
 .DS_Store
 .env.local
-*.vitest
+**/*.vitest
 pnpm-lock.yaml
 
 # Tests

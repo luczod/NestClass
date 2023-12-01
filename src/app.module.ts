@@ -14,6 +14,8 @@ import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/cart.module';
 import { CartProductModule } from './cart-product/cart-product.module';
+import { PaymentStatusModule } from './payment-status/payment-status.module';
+import { PaymentModule } from './payment/payment.module';
 //npx nest g controller 'name'
 //npx nest g module 'name'
 @Module({
@@ -41,6 +43,8 @@ import { CartProductModule } from './cart-product/cart-product.module';
     ProductModule,
     CartModule,
     CartProductModule,
+    PaymentStatusModule,
+    PaymentModule,
   ],
   controllers: [],
   providers: [
