@@ -30,4 +30,5 @@ git switch -
 boltar para a ultima versão
 
 git log --oneline --since="2023-02-02" --until="2023-02-04"
+git log  --since="2023-02-02" --until="2023-02-04"
 range of dates
