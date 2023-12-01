@@ -1,12 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CityController } from '../city.controller';
-import { CityEntity } from '../model/city.entity';
 import { CityService } from '../city.service';
-import { CacheService } from '../../cache/cache.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import { CityEntityMock } from '../__mocks__/city.mock';
-import { StateEntityMock } from 'src/state/__mocks__/state.mock';
+import { StateEntityMock } from '../../state/__mocks__/state.mock';
 
 describe('CityController', () => {
   let controller: CityController;

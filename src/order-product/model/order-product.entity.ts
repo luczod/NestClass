@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -33,11 +33,11 @@ export class OrderProductEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToMany('OrderEntity', 'ordersProduct')
+  @ManyToOne('OrderEntity', 'ordersProduct')
   @JoinColumn({ name: 'order_id', referencedColumnName: 'id' })
-  orders?: OrderEntity;
+  order?: OrderEntity;
 
-  @ManyToMany('ProductEntity', 'ordersProduct')
+  @ManyToOne('ProductEntity', 'ordersProduct')
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
   product?: ProductEntity;
 }

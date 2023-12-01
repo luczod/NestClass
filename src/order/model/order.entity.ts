@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -36,18 +36,18 @@ export class OrderEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToMany('UserEntity', 'orders')
+  @ManyToOne('UserEntity', 'orders')
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: UserEntity;
+  user?: UserEntity;
 
-  @ManyToMany('AddressEntity', 'orders')
+  @ManyToOne('AddressEntity', 'orders')
   @JoinColumn({ name: 'address_id', referencedColumnName: 'id' })
-  address: AddressEntity;
+  address?: AddressEntity;
 
-  @ManyToMany('PaymentEntity', 'orders')
+  @ManyToOne('PaymentEntity', 'orders')
   @JoinColumn({ name: 'payment_id', referencedColumnName: 'id' })
-  payment: PaymentEntity;
+  payment?: PaymentEntity;
 
-  @OneToMany('OrderProductEntity', 'orders')
-  ordersProduct: OrderProductEntity[];
+  @OneToMany('OrderProductEntity', 'order')
+  ordersProduct?: OrderProductEntity[];
 }

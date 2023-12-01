@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   TableInheritance,
@@ -42,7 +42,7 @@ export abstract class PaymentEntity {
   @OneToMany('OrderEntity', 'payment')
   orders?: OrderEntity[];
 
-  @ManyToMany('PaymentStatusEntity', 'payments')
+  @ManyToOne('PaymentStatusEntity', 'payments')
   @JoinColumn({ name: 'status_id', referencedColumnName: 'id' })
   paymentStatus?: PaymentStatusEntity;
 
