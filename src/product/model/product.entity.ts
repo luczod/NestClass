@@ -1,3 +1,4 @@
+import { OrderProductEntity } from '../../order-product/model/order-product.entity';
 import { CartProductEntity } from '../../cart-product/model/cart-product.entity';
 import { CategoryEntity } from '../../category/model/category.entity';
 
@@ -9,7 +10,6 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  Relation,
   UpdateDateColumn,
 } from 'typeorm';
 
@@ -42,4 +42,7 @@ export class ProductEntity {
   @ManyToOne('CategoryEntity', 'products')
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category?: CategoryEntity;
+
+  @OneToMany('OrderProductEntity', 'product')
+  orderProduct: OrderProductEntity[];
 }
