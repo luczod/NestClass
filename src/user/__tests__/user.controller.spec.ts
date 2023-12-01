@@ -55,7 +55,7 @@ describe('UserController', () => {
     ]);
   });
 
-  it('should return ReturnUser in getUserById', async () => {
+  it('should return ID by decorator UserId', async () => {
     const user = await controller.getUserById(userEntityMock.id);
 
     expect(user).toEqual({
