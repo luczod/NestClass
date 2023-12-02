@@ -6,7 +6,7 @@ import { ProductEntity } from '../model/product.entity';
 import { CategoryService } from '../../category/category.service';
 import { categoryMock } from '../../category/__mocks__/category.mock';
 import { productMock } from '../__mocks__/product.mock';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { createProductMock } from '../__mocks__/create-product.mock';
 import { ReturnDeleteMock } from 'src/__mocks__/return-delete.mock';
 
@@ -52,6 +52,25 @@ describe('ProductService', () => {
     const products = await service.findAll();
 
     expect(products).toEqual([productMock]);
+  });
+
+  it('should return relations in findAll with args', async () => {
+    const spy = vi.spyOn(productRepository, 'find');
+    const products = await service.findAll([], true);
+
+    expect(products).toEqual([productMock]);
+    expect(spy.mock.calls[0][0]).toEqual({ relations: { category: true } });
+  });
+
+  it('should return products filterd in findAll with  args productid', async () => {
+    const spy = vi.spyOn(productRepository, 'find');
+    const products = await service.findAll([7435], true);
+
+    expect(products).toEqual([productMock]);
+    expect(spy.mock.calls[0][0]).toEqual({
+      where: { id: In([7435]) },
+      relations: { category: true },
+    });
   });
 
   it('should return error if products empty', async () => {

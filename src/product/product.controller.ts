@@ -25,7 +25,9 @@ export class ProductController {
 
   @Get()
   async findAll(): Promise<ReturnProduct[]> {
-    return (await this.productService.findAll()).map((product) => new ReturnProduct(product));
+    return (await this.productService.findAll([], true)).map(
+      (product) => new ReturnProduct(product),
+    );
   }
 
   @Roles(UserType.Admin)
