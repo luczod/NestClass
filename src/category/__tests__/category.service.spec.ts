@@ -6,10 +6,14 @@ import { CategoryEntity } from '../model/category.entity';
 import { categoryMock } from '../__mocks__/category.mock';
 import { Repository } from 'typeorm';
 import { createCategoryMock } from '../__mocks__/createCategory.mock';
+import { ProductEntity } from '../../product/model/product.entity';
+import { CountProductMock } from 'src/product/__mocks__/count.mock';
+import { ReturnCategory } from '../dtos/return-category.dto';
 
 describe('CategoryService', () => {
   let service: CategoryService;
   let categoryRepository: Repository<CategoryEntity>;
+  let productRepository: Repository<ProductEntity>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -23,21 +27,30 @@ describe('CategoryService', () => {
             save: vi.fn().mockResolvedValue(categoryMock),
           },
         },
+        {
+          provide: getRepositoryToken(ProductEntity),
+          useValue: {},
+        },
       ],
     }).compile();
 
     service = module.get<CategoryService>(CategoryService);
     categoryRepository = module.get<Repository<CategoryEntity>>(getRepositoryToken(CategoryEntity));
+    productRepository = module.get<Repository<ProductEntity>>(getRepositoryToken(ProductEntity));
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+    expect(categoryRepository).toBeDefined();
+    expect(productRepository).toBeDefined();
   });
 
   it('should return list category', async () => {
+    vi.spyOn(service, 'countProductByCategoryId').mockResolvedValue([CountProductMock]);
     const categories = await service.findAllCategories();
+    const resultList = new ReturnCategory(categoryMock, 0);
 
-    expect(categories).toEqual([categoryMock]);
+    expect(categories).toEqual([resultList]);
   });
 
   it('should return error in list category empty', async () => {
