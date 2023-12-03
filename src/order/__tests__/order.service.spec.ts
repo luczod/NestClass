@@ -53,7 +53,7 @@ describe('OrderService', () => {
           provide: OrderProductService,
           useValue: {
             createOrderProduct: vi.fn().mockResolvedValue(orderProductMock),
-            findAmountProductsByOrderId: vi.fn().mockResolvedValue(groupOrderMock),
+            findAmountProductsByOrderId: vi.fn().mockResolvedValue([]),
           },
         },
         {
@@ -179,7 +179,7 @@ describe('OrderService', () => {
     expect(spyCartServiceClear.mock.calls.length).toEqual(1);
   });
 
-  it.skip('should return orders', async () => {
+  it('should return orders', async () => {
     const spy = vi.spyOn(orderRepositoty, 'find');
     const orders = await service.findAllOrders();
 
