@@ -6,9 +6,10 @@ import { ProductEntity } from '../model/product.entity';
 import { CategoryService } from '../../category/category.service';
 import { categoryMock } from '../../category/__mocks__/category.mock';
 import { productMock } from '../__mocks__/product.mock';
-import { In, Repository } from 'typeorm';
+import { ILike, In, Repository } from 'typeorm';
 import { createProductMock } from '../__mocks__/create-product.mock';
 import { ReturnDeleteMock } from 'src/__mocks__/return-delete.mock';
+import { ReturnProduct } from '../dtos/return-product.dto';
 
 describe('ProductService', () => {
   let service: ProductService;
@@ -32,6 +33,7 @@ describe('ProductService', () => {
             findOne: vi.fn().mockResolvedValue(productMock),
             save: vi.fn().mockResolvedValue(productMock),
             delete: vi.fn().mockResolvedValue(ReturnDeleteMock),
+            findAndCount: vi.fn().mockResolvedValue([[productMock], 1]),
           },
         },
       ],
@@ -138,5 +140,49 @@ describe('ProductService', () => {
     vi.spyOn(productRepository, 'save').mockRejectedValue(new Error());
 
     expect(service.updateProduct(createProductMock, productMock.id)).rejects.toThrowError();
+  });
+
+  it('should return product pagination', async () => {
+    const spy = vi.spyOn(productRepository, 'findAndCount');
+    const productsPagination = await service.findAllPage();
+
+    expect(productsPagination.data).toEqual([new ReturnProduct(productMock)]);
+    expect(productsPagination.meta).toEqual({
+      itemsPerPage: 10,
+      totalItems: 1,
+      currentPage: 1,
+      totalPages: 1,
+    });
+    expect(spy.mock.calls[0][0]).toEqual({
+      take: 10,
+      skip: 0,
+      relations: {
+        category: true,
+      },
+    });
+  });
+
+  it('should return product pagination send size and page', async () => {
+    const mockSize = 432;
+    const mockPage = 532;
+    const productsPagination = await service.findAllPage(undefined, mockSize, mockPage);
+
+    expect(productsPagination.data).toEqual([new ReturnProduct(productMock)]);
+    expect(productsPagination.meta).toEqual({
+      itemsPerPage: mockSize,
+      totalItems: 1,
+      currentPage: mockPage,
+      totalPages: 1,
+    });
+  });
+
+  it('should return product pagination search', async () => {
+    const mockSearch = 'mockSearch';
+    const spy = vi.spyOn(productRepository, 'findAndCount');
+    await service.findAllPage(mockSearch);
+
+    expect(spy.mock.calls[0][0].where).toEqual({
+      name: ILike(`%${mockSearch}%`),
+    });
   });
 });

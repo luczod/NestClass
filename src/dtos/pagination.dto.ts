@@ -2,13 +2,13 @@ export class PaginationMeta {
   itemsPerPage: number;
   totalItems: number;
   currentPage: number;
-  totalPage: number;
+  totalPages: number;
 
-  constructor(itemsPerPage: number, totalItems: number, currentPage: number, totalPage: number) {
+  constructor(itemsPerPage: number, totalItems: number, currentPage: number, totalPages: number) {
     this.itemsPerPage = itemsPerPage;
     this.totalItems = totalItems;
     this.currentPage = currentPage;
-    this.totalPage = totalPage;
+    this.totalPages = totalPages;
   }
 }
 
