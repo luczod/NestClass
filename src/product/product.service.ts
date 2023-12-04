@@ -5,6 +5,11 @@ import { DeleteResult, ILike, In, Repository } from 'typeorm';
 import { CategoryService } from '../category/category.service';
 import { CreateProductDTO } from './dtos/create-product.dto';
 import { UpdateProductDTO } from './dtos/update-procut.dto';
+import { Pagination, PaginationMeta } from '../dtos/pagination.dto';
+import { ReturnProduct } from './dtos/return-product.dto';
+
+const NUM_PAGE = 10;
+const FIRST_PAGE = 1;
 
 @Injectable()
 export class ProductService {
@@ -16,26 +21,44 @@ export class ProductService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  async findAllPage(search?: string): Promise<ProductEntity[]> {
+  async findAllPage(
+    search?: string,
+    size = NUM_PAGE,
+    page = FIRST_PAGE,
+  ): Promise<Pagination<ReturnProduct[]>> {
+    const skip = (page - 1) * size;
     let findOptions = {};
+
     if (search) {
       findOptions = {
         where: {
           name: ILike(`%${search}%`),
         },
+        take: size,
+        skip,
         relations: {
           category: true,
         },
       };
     }
 
-    const products = await this.productRepository.find(findOptions);
+    const [products, total] = await this.productRepository.findAndCount({
+      ...findOptions,
+      take: size,
+      skip,
+      relations: {
+        category: true,
+      },
+    });
 
     if (!products || products.length === 0) {
       throw new NotFoundException('Not found products');
     }
 
-    return products;
+    const Meta = new PaginationMeta(Number(size), total, Number(page), Math.ceil(total / size));
+    const productsList = products.map((product) => new ReturnProduct(product));
+
+    return new Pagination(Meta, productsList);
   }
 
   async findAll(productId?: number[], isFindRelation: boolean = false): Promise<ProductEntity[]> {
