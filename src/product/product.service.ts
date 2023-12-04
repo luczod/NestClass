@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './model/product.entity';
-import { DeleteResult, In, Repository } from 'typeorm';
+import { DeleteResult, ILike, In, Repository } from 'typeorm';
 import { CategoryService } from '../category/category.service';
 import { CreateProductDTO } from './dtos/create-product.dto';
 import { UpdateProductDTO } from './dtos/update-procut.dto';
@@ -15,6 +15,28 @@ export class ProductService {
     @Inject(forwardRef(() => CategoryService))
     private readonly categoryService: CategoryService,
   ) {}
+
+  async findAllPage(search?: string): Promise<ProductEntity[]> {
+    let findOptions = {};
+    if (search) {
+      findOptions = {
+        where: {
+          name: ILike(`%${search}%`),
+        },
+        relations: {
+          category: true,
+        },
+      };
+    }
+
+    const products = await this.productRepository.find(findOptions);
+
+    if (!products || products.length === 0) {
+      throw new NotFoundException('Not found products');
+    }
+
+    return products;
+  }
 
   async findAll(productId?: number[], isFindRelation: boolean = false): Promise<ProductEntity[]> {
     let findOptions = {};

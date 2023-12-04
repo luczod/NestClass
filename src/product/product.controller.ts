@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -26,6 +27,13 @@ export class ProductController {
   @Get()
   async findAll(): Promise<ReturnProduct[]> {
     return (await this.productService.findAll([], true)).map(
+      (product) => new ReturnProduct(product),
+    );
+  }
+
+  @Get('/page')
+  async findAllPage(@Query('search') search: string): Promise<ReturnProduct[]> {
+    return (await this.productService.findAllPage(search)).map(
       (product) => new ReturnProduct(product),
     );
   }
