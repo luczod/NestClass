@@ -27,6 +27,11 @@ export class CategoryController {
     return this.categoryService.findAllCategories();
   }
 
+  @Get('/:categoryId')
+  async findCategoryById(@Param('categoryId') categoryId: number): Promise<ReturnCategory> {
+    return new ReturnCategory(await this.categoryService.findCategoryById(categoryId, true));
+  }
+
   @Roles(UserType.Root, UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post()

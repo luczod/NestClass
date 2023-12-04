@@ -136,7 +136,7 @@ describe('CategoryService', () => {
   it('should return error if category with relations', async () => {
     vi.spyOn(categoryRepository, 'findOne').mockResolvedValue({
       ...categoryMock,
-      products: productMock,
+      products: [productMock],
     });
 
     expect(service.deleteCategory(categoryMock.id)).rejects.toThrowError(BadRequestException);

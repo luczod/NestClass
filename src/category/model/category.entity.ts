@@ -24,5 +24,5 @@ export class CategoryEntity {
   updatedAt: Date;
 
   @OneToMany('ProductEntity', 'category')
-  products?: Relation<ProductEntity>;
+  products?: Relation<ProductEntity[]>;
 }
