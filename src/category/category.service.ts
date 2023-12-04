@@ -8,7 +8,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryEntity } from './model/category.entity';
 import { ProductEntity } from '../product/model/product.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateCategory } from './dtos/create-Category.dto';
 import { CountProduct } from '../product/dtos/count-product.dto';
 import { ReturnCategory } from './dtos/return-category.dto';
@@ -46,11 +46,18 @@ export class CategoryService {
     );
   }
 
-  async findCategoryById(categoryId: number): Promise<CategoryEntity> {
+  async findCategoryById(categoryId: number, isRelations?: boolean): Promise<CategoryEntity> {
+    const relations = isRelations
+      ? {
+          products: true,
+        }
+      : undefined;
+
     const category = await this.categoryRepository.findOne({
       where: {
         id: categoryId,
       },
+      relations,
     });
 
     if (!category) {
@@ -59,7 +66,6 @@ export class CategoryService {
 
     return category;
   }
-
   async findCategoryByName(name: string): Promise<CategoryEntity> {
     const category = await this.categoryRepository.findOne({
       where: {
@@ -83,6 +89,17 @@ export class CategoryService {
 
     return this.categoryRepository.save(createCategory);
   }
+
+  async deleteCategory(categoryId: number): Promise<DeleteResult> {
+    const category = await this.findCategoryById(categoryId, true);
+
+    if (category.products) {
+      throw new BadRequestException('Category with relations.');
+    }
+
+    return this.categoryRepository.delete({ id: categoryId });
+  }
+
   async countProductByCategoryId(): Promise<any> {
     const queryBuilder = this.categoryRepository
       .createQueryBuilder('c')

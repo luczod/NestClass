@@ -7,8 +7,11 @@ import { categoryMock } from '../__mocks__/category.mock';
 import { Repository } from 'typeorm';
 import { createCategoryMock } from '../__mocks__/createCategory.mock';
 import { ProductEntity } from '../../product/model/product.entity';
-import { CountProductMock } from 'src/product/__mocks__/count.mock';
+import { CountProductMock } from '../../product/__mocks__/count.mock';
 import { ReturnCategory } from '../dtos/return-category.dto';
+import { ReturnDeleteMock } from '../../__mocks__/return-delete.mock';
+import { productMock } from '../../product/__mocks__/product.mock';
+import { BadRequestException } from '@nestjs/common';
 
 describe('CategoryService', () => {
   let service: CategoryService;
@@ -25,6 +28,7 @@ describe('CategoryService', () => {
             findOne: vi.fn().mockResolvedValue(categoryMock),
             find: vi.fn().mockResolvedValue([categoryMock]),
             save: vi.fn().mockResolvedValue(categoryMock),
+            delete: vi.fn().mockResolvedValue(ReturnDeleteMock),
           },
         },
         {
@@ -106,5 +110,34 @@ describe('CategoryService', () => {
     vi.spyOn(categoryRepository, 'findOne').mockResolvedValue(undefined);
 
     expect(service.findCategoryById(categoryMock.id)).rejects.toThrowError();
+  });
+
+  it('should return delete result in success', async () => {
+    const deleteResult = await service.deleteCategory(categoryMock.id);
+
+    expect(deleteResult).toEqual(ReturnDeleteMock);
+  });
+
+  it('should send relations in request findOne', async () => {
+    const spy = vi.spyOn(categoryRepository, 'findOne');
+    await service.deleteCategory(categoryMock.id);
+
+    expect(spy.mock.calls[0][0]).toEqual({
+      where: {
+        id: categoryMock.id,
+      },
+      relations: {
+        products: true,
+      },
+    });
+  });
+
+  it('should return error if category with relations', async () => {
+    vi.spyOn(categoryRepository, 'findOne').mockResolvedValue({
+      ...categoryMock,
+      products: productMock,
+    });
+
+    expect(service.deleteCategory(categoryMock.id)).rejects.toThrowError(BadRequestException);
   });
 });
