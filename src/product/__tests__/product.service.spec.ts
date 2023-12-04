@@ -62,7 +62,7 @@ describe('ProductService', () => {
     expect(spy.mock.calls[0][0]).toEqual({ relations: { category: true } });
   });
 
-  it('should return products filterd in findAll with  args productid', async () => {
+  it('should return products filterd in findAll with args productid', async () => {
     const spy = vi.spyOn(productRepository, 'find');
     const products = await service.findAll([7435], true);
 
@@ -98,9 +98,22 @@ describe('ProductService', () => {
   });
 
   it('should return product findProductById', async () => {
+    const spy = vi.spyOn(productRepository, 'findOne');
     const product = await service.findProductById(productMock.id);
 
     expect(product).toEqual(productMock);
+    expect(spy.mock.calls[0][0]).toEqual({ where: { id: productMock.id } });
+  });
+
+  it('should return product findProductById with relations', async () => {
+    const spy = vi.spyOn(productRepository, 'findOne');
+    const product = await service.findProductById(productMock.id, true);
+
+    expect(product).toEqual(productMock);
+    expect(spy.mock.calls[0][0]).toEqual({
+      where: { id: productMock.id },
+      relations: { category: true },
+    });
   });
 
   it('should return error in findProductById not found', async () => {

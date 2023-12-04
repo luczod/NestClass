@@ -30,6 +30,11 @@ export class ProductController {
     );
   }
 
+  @Get('/:productId')
+  async findProductById(@Param('productId') productId: number): Promise<ReturnProduct> {
+    return new ReturnProduct(await this.productService.findProductById(productId, true));
+  }
+
   @Roles(UserType.Root, UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post()
