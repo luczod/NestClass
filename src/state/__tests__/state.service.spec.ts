@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { StateEntity } from '../model/state.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { StateEntityMock } from '../__mocks__/state.mock';
+import { ReturnStateDto } from '../dtos/returnState.dto';
 
 describe('StateService', () => {
   let service: StateService;
@@ -31,6 +32,12 @@ describe('StateService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
     expect(stateRepository).toBeDefined();
+  });
+
+  it('instance class ReturnStateDto', () => {
+    const obj = new ReturnStateDto(StateEntityMock);
+
+    expect(obj.name).toEqual(StateEntityMock.name);
   });
 
   it('should return list of states in getAllState', async () => {

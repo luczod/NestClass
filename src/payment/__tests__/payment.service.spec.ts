@@ -18,6 +18,7 @@ import { BadRequestException } from '@nestjs/common';
 import { cartProductMock } from '../../cart-product/__mocks__/cart-product.mock';
 import { PaymentType } from '../../payment-status/enums/payment-type.enum';
 import { cartMock } from 'src/cart/__mocks__/cart.mock';
+import { ReturnPaymentDTO } from '../dtos/return-payment.dto';
 
 describe('PaymentService', () => {
   let service: PaymentService;
@@ -44,6 +45,13 @@ describe('PaymentService', () => {
     expect(service).toBeDefined();
     expect(paymentRepository).toBeDefined();
   });
+
+  it('instance class ReturnPaymentDTO', () => {
+    const obj = new ReturnPaymentDTO(paymentMock);
+
+    expect(obj.price).toEqual(paymentMock.price);
+  });
+
   it('should save payment pix in DB', async () => {
     const spy = vi.spyOn(paymentRepository, 'save');
     const payment = await service.createPayment(createOrderPixMock, [productMock], cartMock);

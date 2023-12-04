@@ -7,6 +7,7 @@ import { orderMock } from '../../order/__mocks__/order.mock';
 import { productMock } from '../../product/__mocks__/product.mock';
 import { OrderProductEntity } from '../model/order-product.entity';
 import { orderProductMock } from '../__mocks__/order-product.mock';
+import { ReturnOrderProductDTO } from '../dtos/return-order-product.dto';
 
 describe('OrderProductService', () => {
   let service: OrderProductService;
@@ -34,6 +35,12 @@ describe('OrderProductService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
     expect(orderProductRepository).toBeDefined();
+  });
+
+  it('instance class ReturnOrderProductDTO', () => {
+    const obj = new ReturnOrderProductDTO(orderProductMock);
+
+    expect(obj.amount).toEqual(orderProductMock.amount);
   });
 
   it('should return orderProduct in save', async () => {

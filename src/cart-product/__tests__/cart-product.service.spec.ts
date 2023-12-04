@@ -12,6 +12,7 @@ import { cartProductMock } from '../__mocks__/cart-product.mock';
 import { insertCartMock } from '../../cart/__mocks__/insert-cart.mock';
 import { NotFoundException } from '@nestjs/common';
 import { updateCartMock } from '../../cart/__mocks__/update-cart.mock';
+import { ReturnCartProductDTO } from '../dtos/return-cart-product.dto';
 
 describe('CartProductService', () => {
   let service: CartProductService;
@@ -48,6 +49,12 @@ describe('CartProductService', () => {
     expect(service).toBeDefined();
     expect(productService).toBeDefined();
     expect(cartProductRepository).toBeDefined();
+  });
+
+  it('instance class ReturnCartProductDTO', () => {
+    const obj = new ReturnCartProductDTO(cartProductMock);
+
+    expect(obj.amount).toEqual(cartProductMock.amount);
   });
 
   it('should return Delete Result after delete product', async () => {

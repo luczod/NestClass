@@ -6,6 +6,7 @@ import { CityEntity } from '../model/city.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CityEntityMock } from '../__mocks__/city.mock';
 import { CacheService } from '../../cache/cache.service';
+import { ReturnCityDto } from '../dtos/returnCity.dto';
 
 describe('CityService', () => {
   let service: CityService;
@@ -37,6 +38,12 @@ describe('CityService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
     expect(cityRepository).toBeDefined();
+  });
+
+  it('instance class ReturnCityDto', () => {
+    const obj = new ReturnCityDto(CityEntityMock);
+
+    expect(obj.name).toEqual(CityEntityMock.name);
   });
 
   //---------------------findCityById--------------------
