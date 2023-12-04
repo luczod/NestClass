@@ -15,7 +15,7 @@ export class CategoryController {
     return this.categoryService.findAllCategories();
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserType.Root, UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post()
   async createCategory(@Body() createCategory: CreateCategory): Promise<CategoryEntity> {

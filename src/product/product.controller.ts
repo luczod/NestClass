@@ -18,7 +18,7 @@ import { ProductEntity } from './model/product.entity';
 import { DeleteResult } from 'typeorm';
 import { UpdateProductDTO } from './dtos/update-procut.dto';
 
-@Roles(UserType.Admin, UserType.User)
+@Roles(UserType.Root, UserType.Admin, UserType.User)
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -30,14 +30,14 @@ export class ProductController {
     );
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserType.Root, UserType.Admin)
   @UsePipes(ValidationPipe)
   @Post()
   async createProduct(@Body() createProduct: CreateProductDTO): Promise<ProductEntity> {
     return this.productService.createProduct(createProduct);
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserType.Root, UserType.Admin)
   @Delete('/:id')
   async deleteProduct(@Param('id') productId: number): Promise<DeleteResult> {
     console.log(productId);
@@ -45,7 +45,7 @@ export class ProductController {
     return this.productService.deleteProduct(productId);
   }
 
-  @Roles(UserType.Admin)
+  @Roles(UserType.Root, UserType.Admin)
   @UsePipes(ValidationPipe)
   @Put('/:productId')
   async updateProduct(

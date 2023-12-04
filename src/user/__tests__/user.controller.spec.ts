@@ -6,6 +6,7 @@ import { userEntityMock } from '../__mocks__/user.mock';
 import { createUserMock } from '../__mocks__/createUser.mock';
 import { updatePasswordMock } from '../__mocks__/update-user.mock';
 import { ReturnUserDto } from '../dtos/returnUser.dto';
+import { UserType } from '../enum/userType.enum';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -40,6 +41,14 @@ describe('UserController', () => {
     const user = await controller.createUser(createUserMock);
 
     expect(user).toEqual(userEntityMock);
+  });
+
+  it('should return user Entity in createUserAdmin', async () => {
+    const spy = vi.spyOn(userService, 'createUser');
+    const user = await controller.createAdmUser(createUserMock);
+
+    expect(user).toEqual(userEntityMock);
+    expect(spy.mock.calls[0][1]).equal(UserType.Admin);
   });
 
   it('should return ReturnUser in getAllUser', async () => {
