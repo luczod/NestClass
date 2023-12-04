@@ -37,7 +37,7 @@ describe('CartController', () => {
     expect(cartService).toBeDefined();
   });
 
-  it('should cart Entity in insertProductInCart', async () => {
+  it('should cart Entity in createCart', async () => {
     const cart = await controller.createCart(insertCartMock, userEntityMock.id);
 
     expect(cart).toEqual({
@@ -45,7 +45,7 @@ describe('CartController', () => {
     });
   });
 
-  it('should cart Entity in insertProductInCart', async () => {
+  it('should cart Entity in findCartByUserId', async () => {
     const cart = await controller.findCartByUserId(userEntityMock.id);
 
     expect(cart).toEqual({

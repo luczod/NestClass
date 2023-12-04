@@ -51,10 +51,6 @@ export class ProductService {
       },
     });
 
-    if (!products || products.length === 0) {
-      throw new NotFoundException('Not found products');
-    }
-
     const Meta = new PaginationMeta(Number(size), total, Number(page), Math.ceil(total / size));
     const productsList = products.map((product) => new ReturnProduct(product));
 
