@@ -17,7 +17,9 @@ import { CreateCategory } from './dtos/create-Category.dto';
 import { CategoryEntity } from './model/category.entity';
 import { DeleteResult } from 'typeorm';
 import { UpdateCategory } from './dtos/update-category.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Category')
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}

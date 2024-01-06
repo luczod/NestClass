@@ -6,7 +6,9 @@ import { OrderEntity } from './model/order.entity';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from '../user/enum/userType.enum';
 import { ReturnOrderDTO } from './dtos/return-order.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Orders')
 @Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}

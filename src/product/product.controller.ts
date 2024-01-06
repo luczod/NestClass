@@ -19,7 +19,8 @@ import { ProductEntity } from './model/product.entity';
 import { DeleteResult } from 'typeorm';
 import { UpdateProductDTO } from './dtos/update-procut.dto';
 import { Pagination } from '../dtos/pagination.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Product')
 @Roles(UserType.Root, UserType.Admin, UserType.User)
 @Controller('product')
 export class ProductController {

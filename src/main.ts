@@ -7,8 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Ecommerce example')
-    .setDescription('The Ecommerce API reactNative app')
+    .setTitle('Ecommerce API Rest')
+    .setDescription('API used in ReactNative app')
     .setVersion('1.0')
     .build();
   await SwaggerModule.loadPluginMetadata(metadata);

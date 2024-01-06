@@ -16,7 +16,9 @@ import { UpdatePasswordDTO } from './dtos/update-password.dto';
 import { UserId } from '../decorators/userid.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from './enum/userType.enum';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
